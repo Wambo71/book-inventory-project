@@ -1,0 +1,9 @@
+#ignore vurtual environment
+venv/
+#ignore python cache
+--pycache--/ 
+*.pyc 
+#ignore  sqlite database file
+bookstore.db 
+#ignore environment variables
+.env 
