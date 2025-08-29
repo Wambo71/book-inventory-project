@@ -36,6 +36,23 @@ def get_book(book_id):
     else:
         print("Book not found")
 
+
+#update books
+def update_book(session, book_id, title=None, author=None, price=None, stock=None):
+    book = session.query(Book).get(book_id)
+    if book:
+        if title:
+            book.title = title
+        if author:
+            book.author = author
+        if price is not None:
+            book.price = price
+        if stock is not None:
+            book.stock = stock
+        session.commit()
+        print(f"Book {book_id} updated successfully")
+       
+
 # Fetch all customers
 def get_all_customers():
     customers = session.query(Customer).all()

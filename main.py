@@ -1,6 +1,6 @@
 import click
 from models.model import session, Book,Customer,Sale
-from crud.crud import add_book , delete_book, get_all_books,add_customer,get_all_customers,delete_customer,add_sale,get_all_sales,delete_sale
+from crud.crud import add_book , delete_book, get_all_books,add_customer,get_all_customers,delete_customer,add_sale,get_all_sales,delete_sale,update_book
 
 
 while True:
@@ -17,13 +17,14 @@ while True:
         click.secho("1. Add book",fg="blue")
         click.secho("2. view book", fg="red")
         click.secho("3. Delete book",fg="yellow")
-        user_selection = click.prompt("Enter option 1 or 2 or 3",type=int)
+        click.secho("4. Update book",fg="green")
+        user_selection = click.prompt("Enter option 1 . 2 , 3 or 4",type=int)
         if user_selection == 1:
             book_title = click.prompt("Enter book tittle")
             book_author = click.prompt ("Enter book author")
             book_price = click.prompt("Enter book price",type=int)
             book_stock = click.prompt("Enter book stock",type=int)
-            add_book (session,book_title,book_author,book_price,book_stock)
+            add_book (book_title,book_author,book_price,book_stock)
 
             click.secho(f"books added successfully",fg="red")
 
@@ -38,6 +39,23 @@ while True:
         
           click.secho(f"book deleted successfully",fg="red") 
 
+          if user_selection ==4:
+           book_id = click.prompt("Enter book ID to update", type=int)
+           title = click.prompt("Enter new title")
+           author = click.prompt("Enter new author")
+           price = click.prompt("Enter new price")
+           stock = click.prompt("Enter new stock")
+
+           update_book(
+            session, 
+            book_id, 
+            title if title else None, 
+            author if author else None, 
+            int(price) if price else None, 
+            int(stock) if stock else None
+        )
+
+
 
     if user_input == 2:
        click.secho("1. Add customer",fg="blue")
@@ -50,7 +68,7 @@ while True:
           name = click.prompt("Enter customer name")
           email = click.prompt("Enter customer email")
           address = click.prompt("Enter customer address")
-          add_customer(session, name, email,address)
+          add_customer( name, email,address)
 
           click.secho(f"customer added successfully")
 
@@ -66,6 +84,8 @@ while True:
            click.secho(f"customer deleted successfully")
 
 
+
+
     if user_input ==3: 
        click.secho("1. Add sales",fg="blue")
        click.secho("2. view sales", fg="red")
@@ -78,7 +98,9 @@ while True:
             customer_id = click.prompt("Enter customer ID", type=int)
             book_id = click.prompt("Enter book ID", type=int)
             quantity = click.prompt("Enter quantity", type=int)
-            add_sale(session, customer_id, book_id, quantity)
+            sale_date = click.prompt("Enter sale date")
+            description = click.prompt("Enter sale description")
+            add_sale( customer_id, book_id, quantity,sale_date,description)
 
             click.echo(f"Sale added successfully")
 
@@ -90,6 +112,7 @@ while True:
              sale_id = click.prompt("Enter sale ID to delete", type=int)
              delete_sale(session, sale_id)
              click.secho(f"Sale deleted succussfully")
+             
     elif user_input == 4: 
        click.secho(f"EXITING",fg="red")
        break        
@@ -97,6 +120,7 @@ while True:
 
 
     
+
 
 
 
