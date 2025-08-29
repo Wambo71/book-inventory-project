@@ -9,10 +9,11 @@ from sqlalchemy.orm import declarative_base , relationship , sessionmaker
 #base for class models
 Base = declarative_base()
 
-#database connection
-#engine = create_engine("sqlite:///bookstore.db")
-#session = sessionmaker(bind=engine)
-#session = session()
+# setup database
+engine = create_engine("sqlite:///bookstore.db")
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+session = Session()
 
 class Book(Base):
     __tablename__ = 'books'
@@ -48,9 +49,5 @@ class  Sale(Base):
     customer = relationship("Customer",back_populates="sales")
 
 
-# setup database
-engine = create_engine("sqlite:///bookstore.db")
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
+
 

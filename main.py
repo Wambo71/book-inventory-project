@@ -3,13 +3,16 @@ from models.model import session, Book,Customer,Sale
 from crud.crud import add_book , delete_book, get_all_books,add_customer,get_all_customers,delete_customer,add_sale,get_all_sales,delete_sale,update_book
 
 
+# Infinite loop to keep showing the menu until user exits
 while True:
+    #Main menu
     click.secho("BOOKSTORE INVENTORY AND SALES", fg="red")
     click.secho("1. Manage book", fg="blue")
     click.secho("2. Manage customers", fg="yellow")
     click.secho("3. Update sales", fg="green")
     click.secho("4. Exit",fg="yellow")
- 
+
+  #prompt user for a choice
     user_input =click.prompt ("Enter oPtion", type=int)
     click.secho(f"You have entered option {user_input}")
 
@@ -19,6 +22,8 @@ while True:
         click.secho("3. Delete book",fg="yellow")
         click.secho("4. Update book",fg="green")
         user_selection = click.prompt("Enter option 1 . 2 , 3 or 4",type=int)
+        
+        #Add a book
         if user_selection == 1:
             book_title = click.prompt("Enter book tittle")
             book_author = click.prompt ("Enter book author")
@@ -27,18 +32,21 @@ while True:
             add_book (book_title,book_author,book_price,book_stock)
 
             click.secho(f"books added successfully",fg="red")
-
+        
+        #View books
         if user_selection == 2:
 
          click.secho(f"All books in the inventory",fg="green")
          get_all_books()
-
+        
+        #delete a book
         if user_selection ==3:
           book_id = click.prompt("Enter book ID to delete", type=int)
           delete_book( book_id)
         
           click.secho(f"book deleted successfully",fg="red") 
-
+        
+        #update a book
         if user_selection ==4:
            book_id = click.prompt("Enter book ID to update", type=int)
            title = click.prompt("Enter new title", default="", show_default=False)
@@ -63,7 +71,8 @@ while True:
        click.secho("3. Delete customer",fg="yellow")          
       
        user_selection = click.prompt("Enter option (1, 2 or 3)", type=int)
-
+       
+       #Add new customer
        if user_selection ==1:
           name = click.prompt("Enter customer name")
           email = click.prompt("Enter customer email")
@@ -72,11 +81,12 @@ while True:
 
           click.secho(f"customer added successfully")
 
-
+        #View all customers
        if user_selection ==2: 
            click.secho(f"All customers",fg="green") 
            get_all_customers()
-
+         
+         #delete customer
        if user_selection ==3:  
            customer_id = click.prompt("Enter customer ID to delete", type=int)
            delete_customer(customer_id)
@@ -92,7 +102,8 @@ while True:
        click.secho("3. Delete sales",fg="yellow") 
 
        user_selection = click.prompt("Enter option (1, 2 or 3)", type=int)
-
+       
+       #Add new sale
        if user_selection ==1:
             
             customer_id = click.prompt("Enter customer ID", type=int)
@@ -103,11 +114,13 @@ while True:
             add_sale( customer_id, book_id,sale_date,description)
 
             click.echo(f"Sale added successfully")
-
+        
+        #view sales
        if user_selection == 2:
              click.secho(" All Sales:", fg="yellow")
              get_all_sales()
-
+        
+        #delete sales
        if user_selection == 3:
              sale_id = click.prompt("Enter sale ID to delete", type=int)
              delete_sale(sale_id)
