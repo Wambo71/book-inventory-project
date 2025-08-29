@@ -35,23 +35,23 @@ while True:
 
         if user_selection ==3:
           book_id = click.prompt("Enter book ID to delete", type=int)
-          delete_book(session, book_id)
+          delete_book( book_id)
         
           click.secho(f"book deleted successfully",fg="red") 
 
-          if user_selection ==4:
+        if user_selection ==4:
            book_id = click.prompt("Enter book ID to update", type=int)
-           title = click.prompt("Enter new title")
-           author = click.prompt("Enter new author")
-           price = click.prompt("Enter new price")
-           stock = click.prompt("Enter new stock")
+           title = click.prompt("Enter new title", default="", show_default=False)
+           author = click.prompt("Enter new author", default="", show_default=False)
+           price = click.prompt("Enter new price", default="",show_default=False)
+           stock = click.prompt("Enter new stock", default="",show_default=False)
 
            update_book(
-            session, 
+            session,
             book_id, 
             title if title else None, 
             author if author else None, 
-            int(price) if price else None, 
+            int(price) if price.strip() else None, 
             int(stock) if stock else None
         )
 
@@ -79,7 +79,7 @@ while True:
 
        if user_selection ==3:  
            customer_id = click.prompt("Enter customer ID to delete", type=int)
-           delete_customer(session, customer_id)
+           delete_customer(customer_id)
 
            click.secho(f"customer deleted successfully")
 
@@ -97,20 +97,20 @@ while True:
             
             customer_id = click.prompt("Enter customer ID", type=int)
             book_id = click.prompt("Enter book ID", type=int)
-            quantity = click.prompt("Enter quantity", type=int)
-            sale_date = click.prompt("Enter sale date")
+          
+            sale_date = click.prompt("Enter sale date(DD-MM-YYYY)")
             description = click.prompt("Enter sale description")
-            add_sale( customer_id, book_id, quantity,sale_date,description)
+            add_sale( customer_id, book_id,sale_date,description)
 
             click.echo(f"Sale added successfully")
 
        if user_selection == 2:
              click.secho(" All Sales:", fg="yellow")
-             get_all_sales(session)
+             get_all_sales()
 
        if user_selection == 3:
              sale_id = click.prompt("Enter sale ID to delete", type=int)
-             delete_sale(session, sale_id)
+             delete_sale(sale_id)
              click.secho(f"Sale deleted succussfully")
              
     elif user_input == 4: 
