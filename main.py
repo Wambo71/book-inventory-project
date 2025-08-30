@@ -1,141 +1,145 @@
 import click
-from models.model import session, Book,Customer,Sale
-from crud.crud import add_book , delete_book, get_all_books,add_customer,get_all_customers,delete_customer,add_sale,get_all_sales,delete_sale,update_book
+from models.model import session
+from crud.crud import (
+    add_book, delete_book, get_all_books, update_book,
+    add_customer, get_all_customers, delete_customer,
+    add_sale, get_all_sales, delete_sale
+)
 
-
-# Infinite loop to keep showing the menu until user exits
 while True:
-    #Main menu
+    # Main Menu
+    click.secho("=" * 50, fg="white")
     click.secho("BOOKSTORE INVENTORY AND SALES", fg="red")
-    click.secho("1. Manage book", fg="blue")
+    click.secho("=" * 50, fg="white")
+    click.secho("1. Manage books", fg="blue")
     click.secho("2. Manage customers", fg="yellow")
-    click.secho("3. Update sales", fg="green")
-    click.secho("4. Exit",fg="yellow")
+    click.secho("3. Manage sales", fg="green")
+    click.secho("4. Exit", fg="red")
+    click.secho("-" * 50, fg="cyan")
 
-  #prompt user for a choice
-    user_input =click.prompt ("Enter oPtion", type=int)
-    click.secho(f"You have entered option {user_input}")
+    user_input = click.prompt("Enter option", type=int)
+    click.secho("-" * 50, fg="white")
 
+    # BOOKS MENU
     if user_input == 1:
-        click.secho("1. Add book",fg="blue")
-        click.secho("2. view book", fg="red")
-        click.secho("3. Delete book",fg="yellow")
-        click.secho("4. Update book",fg="green")
-        user_selection = click.prompt("Enter option 1 . 2 , 3 or 4",type=int)
-        
-        #Add a book
-        if user_selection == 1:
-            book_title = click.prompt("Enter book tittle")
-            book_author = click.prompt ("Enter book author")
-            book_price = click.prompt("Enter book price",type=int)
-            book_stock = click.prompt("Enter book stock",type=int)
-            add_book (book_title,book_author,book_price,book_stock)
+        while True:
+            click.secho("BOOK MENU", fg="blue")
+            click.secho("1. Add book", fg="blue")
+            click.secho("2. View books", fg="red")
+            click.secho("3. Delete book", fg="yellow")
+            click.secho("4. Update book", fg="green")
+            click.secho("5. Back to Main Menu", fg="cyan")
+            click.secho("-" * 50, fg="cyan")
 
-            click.secho(f"books added successfully",fg="red")
-        
-        #View books
-        if user_selection == 2:
+            choice = click.prompt("Enter option (1-5)", type=int)
 
-         click.secho(f"All books in the inventory",fg="green")
-         get_all_books()
-        
-        #delete a book
-        if user_selection ==3:
-          book_id = click.prompt("Enter book ID to delete", type=int)
-          delete_book( book_id)
-        
-          click.secho(f"book deleted successfully",fg="red") 
-        
-        #update a book
-        if user_selection ==4:
-           book_id = click.prompt("Enter book ID to update", type=int)
-           title = click.prompt("Enter new title", default="", show_default=False)
-           author = click.prompt("Enter new author", default="", show_default=False)
-           price = click.prompt("Enter new price", default="",show_default=False)
-           stock = click.prompt("Enter new stock", default="",show_default=False)
+            if choice == 1:
+                title = click.prompt("Enter book title")
+                author = click.prompt("Enter book author")
+                price = click.prompt("Enter book price", type=int)
+                stock = click.prompt("Enter book stock", type=int)
+                add_book(title, author, price, stock)
+                click.secho("Book added successfully", fg="green")
 
-           update_book(
-            session,
-            book_id, 
-            title if title else None, 
-            author if author else None, 
-            int(price) if price.strip() else None, 
-            int(stock) if stock else None
-        )
+            elif choice == 2:
+                click.secho("All Books:", fg="yellow")
+                get_all_books()
 
+            elif choice == 3:
+                book_id = click.prompt("Enter book ID to delete", type=int)
+                delete_book(book_id)
+                click.secho("Book deleted successfully", fg="red")
 
+            elif choice == 4:
+                book_id = click.prompt("Enter book ID to update", type=int)
+                title = click.prompt("New title", default="", show_default=False)
+                author = click.prompt("New author", default="", show_default=False)
+                price = click.prompt("New price", default="", show_default=False)
+                stock = click.prompt("New stock", default="", show_default=False)
 
-    if user_input == 2:
-       click.secho("1. Add customer",fg="blue")
-       click.secho("2. view customer", fg="red")
-       click.secho("3. Delete customer",fg="yellow")          
-      
-       user_selection = click.prompt("Enter option (1, 2 or 3)", type=int)
-       
-       #Add new customer
-       if user_selection ==1:
-          name = click.prompt("Enter customer name")
-          email = click.prompt("Enter customer email")
-          address = click.prompt("Enter customer address")
-          add_customer( name, email,address)
+                update_book(
+                    session, book_id,
+                    title if title else None,
+                    author if author else None,
 
-          click.secho(f"customer added successfully")
+                    int(price) if price.strip() else None,
+                    int(stock) if stock.strip() else None
+                )
+                click.secho("Book updated successfully", fg="green")
 
-        #View all customers
-       if user_selection ==2: 
-           click.secho(f"All customers",fg="green") 
-           get_all_customers()
-         
-         #delete customer
-       if user_selection ==3:  
-           customer_id = click.prompt("Enter customer ID to delete", type=int)
-           delete_customer(customer_id)
+            elif choice == 5:  # Go back
+                break
+            else:
+                click.secho("Invalid option, try again!", fg="red")
 
-           click.secho(f"customer deleted successfully")
+    # CUSTOMERS MENU
+    elif user_input == 2:
+        while True:
+            click.secho("CUSTOMER MENU", fg="yellow")
+            click.secho("1. Add customer", fg="blue")
+            click.secho("2. View customers", fg="red")
+            click.secho("3. Delete customer", fg="yellow")
+            click.secho("4. Back to Main Menu", fg="cyan")
+            click.secho("-" * 50, fg="cyan")
 
+            choice = click.prompt("Enter option (1-4)", type=int)
 
+            if choice == 1:
+                name = click.prompt("Enter customer name")
+                email = click.prompt("Enter customer email")
+                address = click.prompt("Enter customer address")
+                add_customer(name, email, address)
+                click.secho("Customer added successfully", fg="green")
 
+            elif choice == 2:
+                get_all_customers()
 
-    if user_input ==3: 
-       click.secho("1. Add sales",fg="blue")
-       click.secho("2. view sales", fg="red")
-       click.secho("3. Delete sales",fg="yellow") 
+            elif choice == 3:
+                customer_id = click.prompt("Enter customer ID to delete", type=int)
+                delete_customer(customer_id)
+                click.secho("Customer deleted successfully", fg="red")
 
-       user_selection = click.prompt("Enter option (1, 2 or 3)", type=int)
-       
-       #Add new sale
-       if user_selection ==1:
-            
-            customer_id = click.prompt("Enter customer ID", type=int)
-            book_id = click.prompt("Enter book ID", type=int)
-          
-            sale_date = click.prompt("Enter sale date(DD-MM-YYYY)")
-            description = click.prompt("Enter sale description")
-            add_sale( customer_id, book_id,sale_date,description)
+            elif choice == 4:  # Go back
+                break
+            else:
+                click.secho("Invalid option, try again!", fg="red")
 
-            click.echo(f"Sale added successfully")
-        
-        #view sales
-       if user_selection == 2:
-             click.secho(" All Sales:", fg="yellow")
-             get_all_sales()
-        
-        #delete sales
-       if user_selection == 3:
-             sale_id = click.prompt("Enter sale ID to delete", type=int)
-             delete_sale(sale_id)
-             click.secho(f"Sale deleted succussfully")
-             
-    elif user_input == 4: 
-       click.secho(f"EXITING",fg="red")
-       break        
-           
+    # SALES MENU
+    elif user_input == 3:
+        while True:
+            click.secho("SALES MENU", fg="green")
+            click.secho("1. Add sale", fg="blue")
+            click.secho("2. View sales", fg="red")
+            click.secho("3. Delete sale", fg="yellow")
+            click.secho("4. Back to Main Menu", fg="cyan")
+            click.secho("-" * 50, fg="cyan")
 
+            choice = click.prompt("Enter option (1-4)", type=int)
 
-    
+            if choice == 1:
+                customer_id = click.prompt("Enter customer ID", type=int)
+                book_id = click.prompt("Enter book ID", type=int)
+                sale_date = click.prompt("Enter sale date (DD-MM-YYYY)")
+                description = click.prompt("Enter sale description")
+                add_sale(customer_id, book_id, sale_date, description)
+                click.secho("Sale added successfully", fg="green")
 
+            elif choice == 2:
+                get_all_sales()
 
+            elif choice == 3:
+                sale_id = click.prompt("Enter sale ID to delete", type=int)
+                delete_sale(sale_id)
+                click.secho("Sale deleted successfully", fg="red")
 
+            elif choice == 4:  # Go back
+                break
+            else:
+                click.secho("Invalid option, try again!", fg="red")
 
-
-   
+    # EXIT PROGRAM
+    elif user_input == 4:
+        click.secho("Exiting...BYEEEE1!", fg="red")
+        break
+    else:
+        click.secho("Invalid option. Try again!", fg="red")
